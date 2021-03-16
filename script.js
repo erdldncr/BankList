@@ -85,12 +85,20 @@ const displayMovements=(movements)=>{
   
 displayMovements(account1.movements)
 
+const calcPrintBalance=(movements)=>{
+  const balance= movements.reduce((sum,mov)=>sum+mov,0)
+  labelBalance.textContent=`${balance}`  
+  }
+calcPrintBalance(account1.movements)
+const createUsernames=(accounts)=>{
+  accounts.forEach(account=>
+    account.userName=account.owner.
+    split(' ')
+    .map(item=>item[0].toLocaleLowerCase()).join('')
+    
+    )
+}
 
-accounts.forEach(account=>
-  account.userName=account.owner.
-  split(' ')
-  .map(item=>item[0].toLocaleLowerCase()).join('')
-  
-  )
 
-  console.log(account3)
+
+
