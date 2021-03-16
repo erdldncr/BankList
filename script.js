@@ -1,3 +1,10 @@
+'use strict';
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+// BANKIST APP
+
+// Data
 const account1 = {
   owner: 'Jonas Schmedtmann',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
@@ -75,3 +82,28 @@ const displayMovements=(movements)=>{
 }
   
 displayMovements(account1.movements)
+
+
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+// LECTURES
+
+// const currencies = new Map([
+//   ['USD', 'United States dollar'],
+//   ['EUR', 'Euro'],
+//   ['GBP', 'Pound sterling'],
+// ]);
+
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+/////////////////////////////////////////////////
+checkDogs([3,5,2,12,7],[4,1,15,8,3])
+
+function checkDogs(dogsJulia,dogsKate){
+  dogsJulia=dogsJulia.slice(1,dogsJulia.length-1)
+  let arr=[...dogsJulia,...dogsKate]
+  arr.forEach((element,index)=>{
+    element>=3?console.log(`Dog number ${index+1} is an adult, and is ${element} years old`):console.log(`Dog number ${index+1} is an puppy, and is ${element} years old`)
+  })
+}
