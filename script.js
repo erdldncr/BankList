@@ -87,9 +87,25 @@ displayMovements(account1.movements)
 
 const calcPrintBalance=(movements)=>{
   const balance= movements.reduce((sum,mov)=>sum+mov,0)
-  labelBalance.textContent=`${balance}`  
+  labelBalance.textContent=`${balance}€`  
   }
 calcPrintBalance(account1.movements)
+
+
+
+const calcDisplaySummary=(movements)=>{
+  labelSumIn.textContent=movements.
+  filter(mov=>mov>0).
+  reduce((a,b)=>a+b)+'€'
+
+  labelSumOut.textContent=account1.movements
+  .filter(mov=>mov<0)
+  .reduce((a,b)=>a+b)+'€'
+}
+
+calcDisplaySummary(account1.movements)
+
+
 const createUsernames=(accounts)=>{
   accounts.forEach(account=>
     account.userName=account.owner.
@@ -98,7 +114,4 @@ const createUsernames=(accounts)=>{
     
     )
 }
-
-
-
-
+createUsernames(accounts)
