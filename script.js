@@ -168,6 +168,22 @@ btnTransfer.addEventListener('click',(e)=>{
 
 })
 
+btnLoan.addEventListener('click',(e)=>{
+  e.preventDefault()
+ 
+  const amount=Number(inputLoanAmount.value)
+
+currentAccount.movements.some(mov=>mov>amount*0.1)&&
+amount>0&&
+currentAccount.movements.push(amount)
+
+inputLoanAmount.value=''
+updateUI(currentAccount)
+
+
+})
+
+
 btnClose.addEventListener('click',(e)=>{
 e.preventDefault()
 
@@ -184,3 +200,4 @@ if(currentAccount.userName==inputCloseUsername.value
 inputCloseUsername.value=inputLoginPin=''
 
 })
+
