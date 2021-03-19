@@ -83,27 +83,32 @@ const displayMovements=(movements)=>{
   )
 }
   
-displayMovements(account1.movements)
+
 
 const calcPrintBalance=(movements)=>{
   const balance= movements.reduce((sum,mov)=>sum+mov,0)
   labelBalance.textContent=`${balance}€`  
   }
-calcPrintBalance(account1.movements)
 
 
 
-const calcDisplaySummary=(movements)=>{
-  labelSumIn.textContent=movements.
+const calcDisplaySummary=(account)=>{
+  labelSumIn.textContent=account.movements.
   filter(mov=>mov>0).
   reduce((a,b)=>a+b)+'€'
 
-  labelSumOut.textContent=account1.movements
+  labelSumOut.textContent=Math.abs(
+    account.movements
   .filter(mov=>mov<0)
-  .reduce((a,b)=>a+b)+'€'
+  .reduce((a,b)=>a+b)
+  )+'€'
+  labelSumInterest.textContent=account.movements.
+  filter(mov=>mov>0).map(mov=>mov*account.interestRate/100)
+  .filter(mov=>mov>=1)
+  .reduce((sum,mov)=>sum+mov).toFixed(2)+'€'
 }
 
-calcDisplaySummary(account1.movements)
+
 
 
 const createUsernames=(accounts)=>{
@@ -115,3 +120,24 @@ const createUsernames=(accounts)=>{
     )
 }
 createUsernames(accounts)
+
+let currentAccount;
+
+btnLogin.addEventListener('click', (e)=>{
+  e.preventDefault()
+  
+
+  currentAccount=accounts.find(account=>account.userName==inputLoginUsername.value)
+  if( currentAccount?.pin==inputLoginPin.value*1){
+    labelWelcome.textContent=`Welcome back, ${currentAccount.owner.split(' ')[0]}`
+    containerApp.style.opacity='1';
+    inputLoginUsername.value=inputLoginPin.value=''
+    inputLoginPin.blur()
+
+
+    calcDisplaySummary(currentAccount)
+    calcPrintBalance(currentAccount.movements)
+    displayMovements(currentAccount.movements)
+    
+  }
+})
