@@ -64,6 +64,12 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 
+const updateUI=(acc)=>{
+  calcDisplaySummary(acc)
+    calcPrintBalance(acc)
+    displayMovements(acc.movements) 
+}
+
 const displayMovements=(movements)=>{
   containerMovements.innerHTML=''
   movements.forEach((mov,i)=>{
@@ -85,9 +91,9 @@ const displayMovements=(movements)=>{
   
 
 
-const calcPrintBalance=(movements)=>{
-  const balance= movements.reduce((sum,mov)=>sum+mov,0)
-  labelBalance.textContent=`${balance}€`  
+const calcPrintBalance=(account)=>{
+  account.balance= account.movements.reduce((sum,mov)=>sum+mov,0)
+  labelBalance.textContent=`${account.balance}€`  
   }
 
 
@@ -135,9 +141,46 @@ btnLogin.addEventListener('click', (e)=>{
     inputLoginPin.blur()
 
 
-    calcDisplaySummary(currentAccount)
-    calcPrintBalance(currentAccount.movements)
-    displayMovements(currentAccount.movements)
+    updateUI(currentAccount)
     
   }
+})
+///transferin money to another Account
+btnTransfer.addEventListener('click',(e)=>{
+  e.preventDefault()
+  const amount= Number(inputTransferAmount.value)
+  const recievedAcc= accounts.find(acc=>acc.userName===inputTransferTo.value)
+  
+  inputTransferTo.value=inputTransferAmount.value=''
+
+
+  if(amount>0&&
+    currentAccount.balance>=amount&&
+    recievedAcc&&
+    recievedAcc?.userName!==currentAccount.userName)
+    {
+    currentAccount.movements.push(-amount)
+    recievedAcc.movements.push(amount)
+    
+      updateUI(currentAccount)
+  }
+  
+
+})
+
+btnClose.addEventListener('click',(e)=>{
+e.preventDefault()
+
+if(currentAccount.userName==inputCloseUsername.value
+  &&currentAccount.pin==Number(inputClosePin.value))
+  {
+    let index=accounts.findIndex(account=>account.userName==currentAccount.userName)
+    
+  accounts.splice(index,1)
+  containerApp.style.opacity='0';
+  labelWelcome.textContent=`Log in to get started`
+  
+}
+inputCloseUsername.value=inputLoginPin=''
+
 })
