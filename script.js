@@ -32,8 +32,8 @@ const account1 = {
   pin: 1111,
 
   movementsDates: [
-    '2019-11-18T21:31:17.178Z',
-    '2019-12-23T07:42:02.383Z',
+    '2021-03-24T21:31:17.178Z',
+    '2021-03-23T07:42:02.383Z',
     '2020-01-28T09:15:04.904Z',
     '2020-04-01T10:17:24.185Z',
     '2020-05-08T14:11:59.604Z',
@@ -96,6 +96,19 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 /////////////////////////////////////////////////
 // Functions
+const formatMovementDate=(date)=>{
+    const calcDaysPassed=(date1,date2)=>{
+     return Math.round(Math.abs(date1-date2)/(1000*24*60*60))
+    }
+  const daysPassed=calcDaysPassed(new Date(),date)
+  console.log(daysPassed)
+  if(daysPassed==0)return 'Today';
+  if(daysPassed==1)return 'Yesterday';
+  if(daysPassed<=7)return `${daysPassed} days ago`;
+  let dateOfMonth=date.getDate() 
+  let month=`${date.getMonth()}`
+  return dateOfMonth+'/'+months[month]+'/'+date.getFullYear()
+}
 
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
@@ -103,12 +116,10 @@ const displayMovements = function (acc, sort = false) {
   const movs = sort ? acc.movements.slice().sort((a, b) => a - b) : acc.movements;
 
   movs.forEach(function (mov, i) {
-    
+  
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const date=new Date(acc.movementsDates[i])
-    let dateOfMonth=date.getDate() 
-    let month=`${date.getMonth()}`
-    const displayDate=dateOfMonth+'/'+months[month]+'/'+date.getFullYear()
+    const displayDate=formatMovementDate(date)
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
